@@ -107,3 +107,69 @@ def calculate_vehicle_operational_costs(db_path):
         
     conn.close()
     return summaries
+def get_dashboard_kpis(db_path):
+    """Calculate real-time KPIs for the main dashboard layout."""
+    conn = get_db_connection(db_path)
+    
+    total_veh = conn.execute("SELECT COUNT(*) as c FROM vehicles").fetchone()['c']
+    avail_veh = conn.execute("SELECT COUNT(*) as c FROM vehicles WHERE status='Available'").fetchone()['c']
+    active_veh = conn.execute("SELECT COUNT(*) as c FROM vehicles WHERE status='On Trip'").fetchone()['c']
+    maint_veh = conn.execute("SELECT COUNT(*) as c FROM vehicles WHERE status='In Shop'").fetchone()['c']
+    
+    active_trips = conn.execute("SELECT COUNT(*) as c FROM trips WHERE status='Dispatched'").fetchone()['c']
+    drivers_duty = conn.execute("SELECT COUNT(*) as c FROM drivers WHERE status='On Trip'").fetchone()['c']
+    
+    # Fleet Utilization = (Active Vehicles / Total Vehicles) * 100
+    utilization = round((active_veh / total_veh * 100) if total_veh > 0 else 0.0, 1)
+    
+    conn.close()
+    return {
+        'active_vehicles': active_veh,
+        'available_vehicles': avail_veh,
+        'maintenance_vehicles': maint_veh,
+        'active_trips': active_trips,
+        'drivers_duty': drivers_duty,
+        'utilization': utilization
+    }
+
+def get_analytics_data(db_path):
+    """Compute Fuel Efficiency and Vehicle ROI formulas per vehicle."""
+    conn = get_db_connection(db_path)
+    vehicles = conn.execute("SELECT * FROM vehicles").fetchall()
+    
+    analytics = []
+    for v in vehicles:
+        reg = v['reg_num']
+        acq_cost = v['acquisition_cost']
+        
+        # Fuel consumed
+        fuel_row = conn.execute("SELECT SUM(liters) as l, SUM(cost) as c FROM fuel_logs WHERE vehicle_ref = ?", (reg,)).fetchone()
+        fuel_liters = fuel_row['l'] or 0.0
+        fuel_cost = fuel_row['c'] or 0.0
+        
+        # Distance traveled (Total planned distance of trips)
+        dist_row = conn.execute("SELECT SUM(planned_distance) as d FROM trips WHERE vehicle_ref = ?", (reg,)).fetchone()
+        distance = dist_row['d'] or 0.0
+        
+        # Maintenance Costs
+        maint_row = conn.execute("SELECT SUM(cost) as c FROM maintenance_logs WHERE vehicle_ref = ?", (reg,)).fetchone()
+        maint_cost = maint_row['c'] or 0.0
+        
+        # Formula: Fuel Efficiency = Distance / Fuel Consumed
+        efficiency = round(distance / fuel_liters, 2) if fuel_liters > 0 else 0.0
+        
+        # Mocking Revenue for ROI: Assume standard freight rate of 50 INR per KM traveled
+        revenue = distance * 50.0
+        
+        # Formula: ROI = (Revenue - (Maint + Fuel)) / Acq Cost
+        roi = round(((revenue - (maint_cost + fuel_cost)) / acq_cost) * 100, 2) if acq_cost > 0 else 0.0
+        
+        analytics.append({
+            'reg_num': reg,
+            'efficiency': efficiency,
+            'operational_cost': fuel_cost + maint_cost,
+            'roi': roi
+        })
+        
+    conn.close()
+    return analytics
