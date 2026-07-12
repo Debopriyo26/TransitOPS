@@ -1,15 +1,15 @@
-from flask import current_app, render_template
-
-@current_app.route('/')
-def dashboard_overview():
-    """Primary layout routing tracking current transactional metrics."""
-    return render_template('base.html', active_page='dashboard')
 
 from flask import current_app, render_template, request, redirect, url_for, flash
 import sqlite3
 from database.database import get_db_connection
 
-@current_app.route('/vehicles', methods=['GET'])
+
+@current_app.route('/', endpoint='dashboard_overview')
+def dashboard_overview():
+    """Primary layout routing tracking current transactional metrics."""
+    return render_template('base.html', active_page='dashboard')
+
+@current_app.route('/vehicles', methods=['GET'], endpoint='list_vehicles')
 def list_vehicles():
     """Retrieve all current machine asset configurations registered across storage engines."""
     db_path = current_app.config['DATABASE']
@@ -18,7 +18,7 @@ def list_vehicles():
     conn.close()
     return render_template('vehicles.html', vehicles=vehicles, active_page='vehicles')
 
-@current_app.route('/vehicles/create', methods=['POST'])
+@current_app.route('/vehicles/create', methods=['POST'], endpoint='create_vehicle')
 def create_vehicle():
     """Ingest asset creation parameters, validating item identity uniqueness fields."""
     db_path = current_app.config['DATABASE']
@@ -44,7 +44,7 @@ def create_vehicle():
         
     return redirect(url_for('list_vehicles'))
 
-@current_app.route('/drivers', methods=['GET'])
+@current_app.route('/drivers', methods=['GET'], endpoint='list_drivers')
 def list_drivers():
     """Deliver complete operational directory containing all operator files and scores[cite: 3]."""
     db_path = current_app.config['DATABASE']
@@ -53,7 +53,7 @@ def list_drivers():
     conn.close()
     return render_template('drivers.html', drivers=drivers, active_page='drivers')
 
-@current_app.route('/drivers/create', methods=['POST'])
+@current_app.route('/drivers/create', methods=['POST'], endpoint='create_driver')
 def create_driver():
     """Ingest explicit driver operational records into localized verification ledgers[cite: 3]."""
     db_path = current_app.config['DATABASE']
@@ -79,11 +79,9 @@ def create_driver():
         
     return redirect(url_for('list_drivers'))
 
-from flask import current_app, render_template, request, redirect, url_for, flash
-from database.database import get_db_connection
 from integration import run_dispatch_validation
 
-@current_app.route('/dispatch', methods=['GET'])
+@current_app.route('/dispatch', methods=['GET'], endpoint='dispatch_dashboard')
 def dispatch_dashboard():
     """Deliver configuration form arrays containing only eligible asset elements."""
     db_path = current_app.config['DATABASE']
@@ -96,7 +94,7 @@ def dispatch_dashboard():
     
     return render_template('dispatcher.html', vehicles=vehicles, drivers=drivers, active_page='dispatch')
 
-@current_app.route('/dispatch/create', methods=['POST'])
+@current_app.route('/dispatch/create', methods=['POST'], endpoint='execute_dispatch_transaction')
 def execute_dispatch_transaction():
     """Process incoming routing transactions through rule integration engines safely."""
     db_path = current_app.config['DATABASE']
