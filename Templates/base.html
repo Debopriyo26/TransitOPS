@@ -33,3 +33,28 @@
                 </div>
             </div>
         </aside>
+        <!-- MAIN WINDOW VIEWPORT -->
+        <main class="main-content">
+            <header class="content-header">
+                <h2>{% block view_title %}Dashboard Overview{% endblock %}</h2>
+                <div class="system-time-box">Shift Tracking: <strong>09:00 AM - 03:00 PM</strong></div>
+            </header>
+            
+            <div id="view-viewport" style="padding: 30px;">
+                <!-- Flash Message Container for Rules Validations -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div class="alert-box {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
