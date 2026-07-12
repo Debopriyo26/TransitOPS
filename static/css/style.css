@@ -1,21 +1,36 @@
-/* Design of base */
+/* GLOBAL RESETS & BASE STYLING */
+
 :root {
-    --bg-main: #0d1117;
-    --bg-surface: #161b22;
-    --bg-card: #1f242c;
-    --border-color: #30363d;
-    --text-main: #c9d1d9;
-    --text-muted: #8b949e;
-    --accent-orange: #f26722;
-    --accent-orange-hover: #ff9b50;
+    /* Main Background Layers */
+    --bg-main: #fcf8f2;         /* Premium Soft Linen White */
+    --bg-surface: #f4eae1;      /* Core Warm Beige Background */
+    --bg-card: #ffffff;         /* Crisp White for Focus Panels and Data Cards */
+    --border-color: #d7c5b4;    /* Subtle Earthy Beige Border Accent */
     
-    --status-avail: #238636;
-    --status-trip: #1f6feb;
-    --status-shop: #9e6a03;
-    --status-crit: #da3633;
+    /* Text Color Tokens */
+    --text-main: #000000;
+    --text-muted: #2d2d2d;
+    
+    /* Accent Color Tokens */
+    --accent-peach: #ffd3b6;    
+    --accent-peach-hover: #ffbfa3; 
+    
+    /* Status Color Tokens */
+    --status-avail: #ccebda;    
+    --status-avail-text: #0b4622;
+    
+    --status-trip: #d0e1fd;   
+    --status-trip-text: #0c316e;
+    
+    --status-shop: #fef08a;     
+    --status-shop-text: #713f12;
+    
+    --status-crit: #fee2e2;     
+    --status-crit-text: #7f1d1d;
 }
 
-/* BOX-SIZING  */
+/* GLOBAL RESETS & BASE STYLING */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -38,7 +53,7 @@ body {
     height: 100vh;
 }
 
-/* CORE structure */
+/* SIDEBAR */
 .sidebar {
     width: 260px;
     background-color: var(--bg-surface);
@@ -58,8 +73,8 @@ body {
 
 .sidebar-brand h2 {
     font-size: 18px;
-    color: #f0f6fc;
-    font-weight: 600;
+    color: var(--text-main);
+    font-weight: 700;
 }
 
 .sidebar-menu {
@@ -67,6 +82,7 @@ body {
     padding-top: 15px;
 }
 
+/* SIDEBAR MENU ITEMS */
 .sidebar-menu .menu-item {
     display: flex;
     align-items: center;
@@ -75,32 +91,35 @@ body {
     color: var(--text-muted);
     text-decoration: none;
     font-size: 14px;
-    border-left: 3px solid transparent;
+    font-weight: 500;
+    border-left: 4px solid transparent;
     transition: all 0.2s ease;
 }
 
 .sidebar-menu .menu-item:hover {
     color: var(--text-main);
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(255, 255, 255, 0.4);
 }
 
 .sidebar-menu .menu-item.active {
     color: var(--text-main);
     background-color: var(--bg-card);
-    border-left-color: var(--accent-orange);
+    border-left-color: var(--text-main); /* Direct solid black focus bar */
+    font-weight: 700;
 }
 
 .user-profile-box {
     padding: 20px 24px;
     border-top: 1px solid var(--border-color);
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: rgba(0, 0, 0, 0.03);
 }
 
 .user-info p {
-    font-weight: 600;
-    color: #f0f6fc;
+    font-weight: 700;
+    color: var(--text-main);
 }
-/* CONTAINER RULES */
+
+/* MAIN CONTENT CONTAINER */
 .main-content {
     flex: 1;
     display: flex;
@@ -122,15 +141,21 @@ body {
 
 .content-header h2 {
     font-size: 20px;
-    color: #f0f6fc;
-    font-weight: 500;
+    color: var(--text-main);
+    font-weight: 600;
 }
 
 .system-time-box {
     font-size: 13px;
-    color: var(--text-muted);
-    background-color: var(--bg-main);
+    color: var(--text-main);
+    background-color: var(--bg-card);
     padding: 6px 14px;
     border-radius: 20px;
     border: 1px solid var(--border-color);
+    font-weight: 500;
+}
+
+/* HIDDEN UTILITY CLASS */
+.hidden {
+    display: none !important;
 }
