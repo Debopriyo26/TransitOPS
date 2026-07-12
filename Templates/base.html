@@ -3,45 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TransitOps - Smart Transport Operations Platform</title>
+    <title>VelocityOne | Smart Transport Operations</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
 </head>
 <body>
-
-    <!-- APPLICATION  INTERFACE  -->
-    <div id="app-shell" class="view-container">
-        <!-- FIXED SIDEBAR MENUS -->
-        <aside class="sidebar">
+    <div class="view-container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
             <div class="sidebar-brand">
-                <span class="brand-icon">🚚</span>
-                <h2>TransitOps</h2>
+                <h2 style="color: var(--text-main) !important; font-weight: 800;">VelocityOne</h2>
             </div>
             <nav class="sidebar-menu">
-                <a href="/" class="menu-item {% if active_page == 'dashboard' %}active{% endif %}">📊 Dashboard</a>
-                <a href="/vehicles" class="menu-item {% if active_page == 'vehicles' %}active{% endif %}">🚛 Vehicle Registry</a>
-                <a href="/drivers" class="menu-item {% if active_page == 'drivers' %}active{% endif %}">👥 Drivers & Safety</a>
-                <a href="/dispatch" class="menu-item {% if active_page == 'dispatch' %}active{% endif %}">🗺️ Trip Dispatcher</a>
-                <a href="/maintenance" class="menu-item {% if active_page == 'maintenance' %}active{% endif %}">🔧 Maintenance</a>
-                <a href="/expenses" class="menu-item {% if active_page == 'expenses' %}active{% endif %}">💳 Fuel & Expenses</a>
-                <a href="/analytics" class="menu-item {% if active_page == 'analytics' %}active{% endif %}">📈 Reports & Analytics</a>
+                <a href="/" class="menu-item {% if active_page == 'dashboard' %}active{% endif %}">Dashboard</a>
+                <a href="/vehicles" class="menu-item {% if active_page == 'vehicles' %}active{% endif %}">Vehicle Registry</a>
+                <a href="/drivers" class="menu-item {% if active_page == 'drivers' %}active{% endif %}">Drivers & Safety</a>
+                <a href="/dispatch" class="menu-item {% if active_page == 'dispatch' %}active{% endif %}">Trip Dispatcher</a>
+                <a href="/maintenance" class="menu-item {% if active_page == 'maintenance' %}active{% endif %}">Maintenance</a>
+                <a href="/expenses" class="menu-item {% if active_page == 'expenses' %}active{% endif %}">Fuel & Expenses</a>
+                <a href="/analytics" class="menu-item {% if active_page == 'analytics' %}active{% endif %}">Reports & Analytics</a>
             </nav>
             <div class="user-profile-box">
                 <div class="user-info">
-                    <p id="user-display-name">Debopriyo Bagchi</p>
-                    <span class="badge badge-neutral">Fleet Manager</span>
+                    <p>Debu</p>
+                    <small>FLEET MANAGER</small>
                 </div>
             </div>
-        </aside>
-        <!-- MAIN WINDOW VIEWPORT -->
-        <main class="main-content">
+        </div>
+
+        <!-- MAIN VIEWPORT -->
+        <div class="main-content">
             <header class="content-header">
-                <h2>{% block view_title %}Dashboard Overview{% endblock %}</h2>
-                <div class="system-time-box">Shift Tracking: <strong>09:00 AM - 03:00 PM</strong></div>
+                <h2>{% block view_title %}{% endblock %}</h2>
             </header>
             
-            <div id="view-viewport" style="padding: 30px;">
-                <!-- Flash Message Container for Rules Validations -->
+            <main style="padding: 30px;">
                 {% with messages = get_flashed_messages(with_categories=true) %}
                   {% if messages %}
                     {% for category, message in messages %}
@@ -49,12 +45,10 @@
                     {% endfor %}
                   {% endif %}
                 {% endwith %}
-
+                
                 {% block content %}{% endblock %}
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
-
-    {% block scripts %}{% endblock %}
 </body>
 </html>
