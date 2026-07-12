@@ -56,6 +56,44 @@ def init_db(db_path):
             FOREIGN KEY(driver_ref) REFERENCES drivers(id)
         )
     ''')
+    # 4. Maintenance Logs Table [Ref: TransitOps Spec]
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS maintenance_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            vehicle_ref TEXT NOT NULL,
+            title TEXT NOT NULL,
+            cost REAL NOT NULL,
+            log_date TEXT NOT NULL,
+            status TEXT DEFAULT 'Open',
+            notes TEXT,
+            FOREIGN KEY(vehicle_ref) REFERENCES vehicles(reg_num)
+        )
+    ''')
+
+    # 5. Fuel Logs Table [Ref: TransitOps Spec]
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS fuel_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            vehicle_ref TEXT NOT NULL,
+            liters REAL NOT NULL,
+            cost REAL NOT NULL,
+            log_date TEXT NOT NULL,
+            FOREIGN KEY(vehicle_ref) REFERENCES vehicles(reg_num)
+        )
+    ''')
+
+    # 6. General Expenses Table [Ref: TransitOps Spec]
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS expenses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            vehicle_ref TEXT NOT NULL,
+            expense_type TEXT NOT NULL,
+            cost REAL NOT NULL,
+            log_date TEXT NOT NULL,
+            description TEXT,
+            FOREIGN KEY(vehicle_ref) REFERENCES vehicles(reg_num)
+        )
+    ''')
 
     conn.commit()
     conn.close()
