@@ -8,7 +8,7 @@ def get_db_connection(db_path):
     return conn
 
 def init_db(db_path):
-    """Construct structural tabular matrices """
+    """Construct structural tabular matrices including auth entities."""
     os.makedirs(os.path.dirname(db_path), exist_ok=True)
     
     conn = get_db_connection(db_path)
@@ -56,6 +56,7 @@ def init_db(db_path):
             FOREIGN KEY(driver_ref) REFERENCES drivers(id)
         )
     ''')
+
     # 4. Maintenance Logs Table [Ref: TransitOps Spec]
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS maintenance_logs (
@@ -92,6 +93,15 @@ def init_db(db_path):
             log_date TEXT NOT NULL,
             description TEXT,
             FOREIGN KEY(vehicle_ref) REFERENCES vehicles(reg_num)
+        )
+    ''')
+
+    # 7. Managers Table (Authentication & Access Control)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS managers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
         )
     ''')
 
