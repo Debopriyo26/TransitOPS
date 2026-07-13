@@ -1,48 +1,57 @@
 /* ==========================================================================
-   VELOCITYONE — ENTERPRISE DARK THEME
-   Premium TMS dashboard styling (Odoo Enterprise / Linear / Vercel / GitHub Dark
-   inspired). Drop-in replacement for the original stylesheet.
-   All original selectors, class names, and structure are preserved 1:1.
+   VELOCITYONE — "DISPATCH CONSOLE" THEME
+   Design concept: a fleet control-room / radar console, not a generic SaaS
+   dashboard. Deep teal-charcoal surfaces, an amber beacon accent (the color
+   of runway lights and dispatch alerts), and tabular monospace numerals on
+   every live readout (KPIs, clock, table figures) so data reads like
+   instrumentation rather than marketing copy.
+   All original selectors, class names, and structure are preserved 1:1 —
+   this is a drop-in replacement, no HTML/JS/Jinja changes required.
    ========================================================================== */
 
 /* GLOBAL VARIABLES and Styling  */
 
 :root {
 
-    /* --- Surfaces --- */
-    --bg-main: #0B1120;          /* primary background — dark navy */
-    --bg-surface: #111827;       /* secondary background (sidebar, headers) */
-    --bg-card: #1E293B;          /* card / panel surface */
-    --border-color: #334155;     /* hairline borders */
+    /* --- Surfaces: deep control-room teal-charcoal, not plain navy/black --- */
+    --bg-main: #0A1414;
+    --bg-surface: #0F1D1D;
+    --bg-card: #15282A;
+    --border-color: #274042;
 
     /* --- Text --- */
-    --text-main: #F8FAFC;        /* primary text */
-    --text-muted: #94A3B8;       /* secondary / supporting text */
+    --text-main: #E8F1EF;
+    --text-muted: #6F9A96;
 
-    /* --- Accent (brand / interactive) --- */
-    --accent-peach: #3B82F6;         /* primary accent (renamed var kept for compatibility) */
-    --accent-peach-hover: #2563EB;   /* accent hover state */
+    /* --- Accent: beacon amber (dispatch / alert lamp), not blue --- */
+    --accent-peach: #F5A623;
+    --accent-peach-hover: #D98E12;
 
-    /* --- Status colors (Transport / Fleet states) --- */
-    --status-avail: #14532d;
-    --status-avail-text: #86efac;
+    /* --- Secondary console accent: radar cyan, used sparingly --- */
+    --accent-cyan: #2DD4BF;
 
-    --status-trip: #1e3a5f;
-    --status-trip-text: #93c5fd;
+    /* --- Status colors: console-lamp pairs --- */
+    --status-avail: #12332a;
+    --status-avail-text: #4ADE80;
 
-    --status-shop: #78350f;
-    --status-shop-text: #fcd34d;
+    --status-trip: #0f2a3a;
+    --status-trip-text: #38BDF8;
 
-    --status-crit: #7f1d1d;
-    --status-crit-text: #fca5a5;
+    --status-shop: #3a2a0f;
+    --status-shop-text: #F5A623;
 
-    /* --- New supporting tokens (additive, non-breaking) --- */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
-    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
-    --radius-md: 12px;
-    --radius-lg: 18px;
-    --focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.35);
+    --status-crit: #3a1414;
+    --status-crit-text: #F87171;
+
+    /* --- Supporting tokens --- */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+    --shadow-glow: 0 0 0 1px rgba(245, 166, 35, 0.25), 0 0 24px rgba(245, 166, 35, 0.08);
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --focus-ring: 0 0 0 3px rgba(245, 166, 35, 0.3);
+    --mono: 'JetBrains Mono', 'Roboto Mono', 'SFMono-Regular', Consolas, monospace;
 }
 
 /* BASE STYLES */
@@ -57,8 +66,8 @@
 body {
     background-color: var(--bg-main);
     background-image:
-        radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.06), transparent 40%),
-        radial-gradient(circle at 100% 0%, rgba(59, 130, 246, 0.04), transparent 35%);
+        radial-gradient(circle at 15% 0%, rgba(245, 166, 35, 0.05), transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(45, 212, 191, 0.04), transparent 40%);
     color: var(--text-main);
     height: 100vh;
     overflow: hidden;
@@ -80,7 +89,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================================
-   SIDEBAR
+   SIDEBAR — reads like a console rail: brand mark, then a lit menu column
    ========================================================================== */
 .sidebar {
     width: 260px;
@@ -103,10 +112,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 18px;
     color: var(--text-main) !important;
     font-weight: 800;
-    background: linear-gradient(90deg, #F8FAFC, #94A3B8);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.02em;
 }
 
 .sidebar-menu {
@@ -120,8 +126,6 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     gap: 12px;
     padding: 14px 24px;
-    margin: 2px 12px;
-    border-radius: var(--radius-md);
     color: var(--text-muted);
     text-decoration: none;
     font-size: 14px;
@@ -131,23 +135,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar-menu .menu-item:hover {
-    background-color: rgba(59, 130, 246, 0.08);
+    background-color: rgba(245, 166, 35, 0.06);
     color: var(--text-main);
-    transform: translateX(2px);
 }
 
 .sidebar-menu .menu-item.active {
-    background-color: rgba(59, 130, 246, 0.14);
+    background-color: rgba(245, 166, 35, 0.1);
     border-left-color: var(--accent-peach);
     color: var(--text-main);
     font-weight: 800;
-    box-shadow: var(--shadow-sm);
+    box-shadow: inset 0 0 20px rgba(245, 166, 35, 0.05);
 }
 
 .user-profile-box {
     padding: 20px 24px;
     border-top: 1px solid var(--border-color);
-    background-color: rgba(255, 255, 255, 0.02);
+    background-color: rgba(0, 0, 0, 0.15);
 }
 
 .user-info p {
@@ -175,7 +178,6 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     justify-content: space-between;
     background-color: var(--bg-surface);
-    backdrop-filter: blur(8px);
 }
 
 .content-header h2 {
@@ -183,14 +185,18 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
 }
 
+/* System clock — styled like an instrument readout: monospace, lit amber */
 .system-time-box {
+    font-family: var(--mono);
     font-size: 13px;
-    color: var(--text-main);
-    background-color: rgba(59, 130, 246, 0.12);
+    font-variant-numeric: tabular-nums;
+    color: var(--accent-peach);
+    background-color: rgba(245, 166, 35, 0.08);
     padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid rgba(59, 130, 246, 0.35);
+    border-radius: 6px;
+    border: 1px solid rgba(245, 166, 35, 0.3);
     font-weight: 700;
+    letter-spacing: 0.03em;
 }
 
 .hidden {
@@ -202,7 +208,7 @@ h1, h2, h3, h4, h5, h6 {
    ========================================================================== */
 .data-table button {
     font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    border-radius: 8px;
+    border-radius: 6px;
     border: 1px solid var(--border-color);
     background-color: var(--bg-card);
     color: var(--text-main);
@@ -212,18 +218,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .data-table button:hover {
-    filter: brightness(1.15);
-    box-shadow: var(--shadow-sm);
     border-color: var(--accent-peach);
+    color: var(--accent-peach);
+    box-shadow: var(--shadow-sm);
 }
 
 .data-table td[style*="background: var(--bg-surface)"] {
-    border-left: 2px solid var(--border-color);
+    border-left: 2px solid var(--accent-peach);
     color: var(--text-main) !important;
     font-size: 14px;
 }
 
-/* Generic table polish (applies without any HTML/class changes) */
+/* Generic table polish — figures set in monospace like a manifest printout */
 table {
     border-collapse: collapse;
     width: 100%;
@@ -233,11 +239,11 @@ table {
 }
 
 thead th {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(255, 255, 255, 0.02);
     color: var(--text-muted);
     text-transform: uppercase;
     font-size: 11px;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     font-weight: 700;
     padding: 12px 16px;
     border-bottom: 1px solid var(--border-color);
@@ -249,6 +255,8 @@ tbody td {
     border-bottom: 1px solid var(--border-color);
     color: var(--text-main);
     font-size: 13.5px;
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
 }
 
 tbody tr {
@@ -256,7 +264,7 @@ tbody tr {
 }
 
 tbody tr:hover {
-    background-color: rgba(59, 130, 246, 0.06);
+    background-color: rgba(245, 166, 35, 0.04);
 }
 
 tbody tr:last-child td {
@@ -264,7 +272,7 @@ tbody tr:last-child td {
 }
 
 /* ==========================================================================
-   KPI CARDS
+   KPI CARDS — instrument gauges: big amber monospace figures on dark glass
    ========================================================================== */
 
 .kpi-grid {
@@ -282,38 +290,60 @@ tbody tr:last-child td {
     text-align: center;
     box-shadow: var(--shadow-md);
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.kpi-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-peach), transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
 .kpi-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
-    border-color: rgba(59, 130, 246, 0.4);
+    border-color: rgba(245, 166, 35, 0.35);
+}
+
+.kpi-card:hover::before {
+    opacity: 1;
 }
 
 .kpi-card h3 {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
     font-size: 38px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--text-main) !important;
     margin-bottom: 8px;
     line-height: 1;
 }
 
 .kpi-card p {
-    font-size: 13px;
+    font-size: 12px;
     text-transform: uppercase;
     font-weight: 700;
     color: var(--text-muted);
-    letter-spacing: 0.5px;
+    letter-spacing: 0.08em;
 }
 
 .kpi-card.highlight {
-    background: linear-gradient(145deg, #1E293B, #16213a);
+    background: linear-gradient(160deg, #1a2f24, #15282a);
     border-color: var(--accent-peach);
-    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.25), var(--shadow-md);
+    box-shadow: var(--shadow-glow);
+}
+
+.kpi-card.highlight h3 {
+    color: var(--accent-peach) !important;
 }
 
 .kpi-card.highlight p {
-    color: #93c5fd;
+    color: #d99a4e;
 }
 
 /* ==========================================================================
@@ -324,7 +354,7 @@ input, select, textarea {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     color: var(--text-main);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 10px 14px;
     font-size: 13.5px;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -348,7 +378,8 @@ label {
     color: var(--text-muted);
     font-size: 12.5px;
     font-weight: 600;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
 }
 
 /* ==========================================================================
@@ -359,7 +390,7 @@ button {
     background-color: var(--bg-card);
     color: var(--text-main);
     border: 1px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 10px 18px;
     font-size: 13.5px;
     font-weight: 600;
@@ -369,7 +400,7 @@ button {
 
 button:hover {
     border-color: var(--accent-peach);
-    box-shadow: var(--shadow-sm);
+    color: var(--accent-peach);
 }
 
 button:active {
@@ -380,13 +411,15 @@ button.primary,
 button[type="submit"] {
     background-color: var(--accent-peach);
     border-color: var(--accent-peach);
-    color: #ffffff;
+    color: #0A1414;
+    font-weight: 700;
 }
 
 button.primary:hover,
 button[type="submit"]:hover {
     background-color: var(--accent-peach-hover);
     border-color: var(--accent-peach-hover);
+    color: #0A1414;
 }
 
 /* ==========================================================================
@@ -394,7 +427,7 @@ button[type="submit"]:hover {
    ========================================================================== */
 
 .modal, .modal-content, .modal-overlay {
-    background-color: rgba(11, 17, 32, 0.65);
+    background-color: rgba(10, 20, 20, 0.7);
 }
 
 .modal-content {
@@ -437,7 +470,7 @@ button[type="submit"]:hover {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--text-muted);
+    background-color: var(--accent-peach);
 }
 
 /* ==========================================================================
