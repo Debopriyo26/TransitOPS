@@ -1,90 +1,273 @@
-/* GLOBAL VARIABLES and Styling  */
+/* ==========================================================
+   VelocityOne Premium Theme
+   Modern Enterprise Dashboard
+   Version 2.0
+========================================================== */
 
-:root {
-    
-    --bg-main: #fcf8f2;         
-    --bg-surface: #f4eae1;      
-    --bg-card: #ffffff;         
-    --border-color: #d7c5b4;    
-    
-    
-    --text-main: #000000;
-    --text-muted: #000000; 
-    
-    
-    --accent-peach: #ffd3b6;    
-    --accent-peach-hover: #ffbfa3; 
-    
-    
-    --status-avail: #ccebda;    
-    --status-avail-text: #000000;
-    
-    --status-trip: #d0e1fd;     
-    --status-trip-text: #000000;
-    
-    --status-shop: #fef08a;     
-    --status-shop-text: #000000;
-    
-    --status-crit: #fee2e2;     
-    --status-crit-text: #000000;
+/* -----------------------------
+   ROOT VARIABLES
+------------------------------*/
+
+:root{
+
+    /* Main Colors */
+
+    --bg-main:#f5f7fb;
+    --bg-surface:#ffffff;
+    --bg-card:#ffffff;
+
+    --border-color:#e5e7eb;
+
+    /* Text */
+
+    --text-main:#1f2937;
+    --text-muted:#6b7280;
+
+    /* Primary */
+
+    --accent-peach:#2563eb;
+    --accent-peach-hover:#1d4ed8;
+
+    /* Status */
+
+    --status-avail:#22c55e;
+    --status-avail-text:#ffffff;
+
+    --status-trip:#3b82f6;
+    --status-trip-text:#ffffff;
+
+    --status-shop:#f59e0b;
+    --status-shop-text:#ffffff;
+
+    --status-crit:#ef4444;
+    --status-crit-text:#ffffff;
+
+    /* Shadow */
+
+    --shadow-small:
+        0 2px 8px rgba(15,23,42,.05);
+
+    --shadow-medium:
+        0 8px 25px rgba(15,23,42,.08);
+
+    --shadow-large:
+        0 20px 40px rgba(15,23,42,.12);
+
+    /* Radius */
+
+    --radius-small:10px;
+    --radius-medium:16px;
+    --radius-large:22px;
+
+    /* Animation */
+
+    --transition:.30s ease;
 }
 
-/* BASE STYLES */
+/* -----------------------------
+   RESET
+------------------------------*/
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
 }
 
-body {
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    height: 100vh;
-    overflow: hidden;
-    font-size: 14px;
-    line-height: 1.5;
+/* -----------------------------
+   BODY
+------------------------------*/
+
+body{
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #eef3ff 0%,
+        #f8fafc 50%,
+        #edf6ff 100%
+    );
+
+    color:var(--text-main);
+
+    font-size:14px;
+
+    line-height:1.6;
+
+    height:100vh;
+
+    overflow:hidden;
+
 }
 
-/* HEADERS */
-h1, h2, h3, h4, h5, h6 {
-    color: #000000 !important;
+/* -----------------------------
+   HEADINGS
+------------------------------*/
+
+h1{
+
+    font-size:34px;
+
+    font-weight:700;
+
 }
 
-.view-container {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
+h2{
+
+    font-size:28px;
+
+    font-weight:700;
+
 }
 
-/* SIDEBAR */
-.sidebar {
-    width: 260px;
-    background-color: var(--bg-surface);
-    border-right: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+h3{
+
+    font-size:22px;
+
+    font-weight:700;
+
 }
 
-.sidebar-brand {
-    padding: 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid var(--border-color);
+h4{
+
+    font-size:18px;
+
+    font-weight:600;
+
 }
 
-.sidebar-brand h2 {
-    font-size: 18px;
-    color: var(--text-main) !important;
-    font-weight: 800;
+h5{
+
+    font-size:16px;
+
+    font-weight:600;
+
 }
 
-.sidebar-menu {
-    flex: 1;
-    padding-top: 15px;
+h6{
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+h1,h2,h3,h4,h5,h6{
+
+    color:var(--text-main);
+
+}
+
+/* -----------------------------
+   LINKS
+------------------------------*/
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+/* -----------------------------
+   SCROLLBAR
+------------------------------*/
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#eef2f7;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#cbd5e1;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#94a3b8;
+
+}
+
+/* -----------------------------
+   MAIN LAYOUT
+------------------------------*/
+
+.view-container{
+
+    display:flex;
+
+    width:100vw;
+
+    height:100vh;
+
+}
+
+/* -----------------------------
+   MAIN CONTENT
+------------------------------*/
+
+.main-content{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow-y:auto;
+
+    background:transparent;
+
+}
+
+/* -----------------------------
+   HIDDEN
+------------------------------*/
+
+.hidden{
+
+    display:none !important;
+
+}
+
+/* -----------------------------
+   GLOBAL TRANSITIONS
+------------------------------*/
+
+button,
+input,
+textarea,
+select,
+.sidebar-menu .menu-item,
+.kpi-card,
+table,
+.card{
+
+    transition:var(--transition);
+
 }
 
 /* SIDEBAR MENU ITEMS */
