@@ -511,3 +511,146 @@ button[type="submit"]:hover {
         animation: none !important;
     }
 }
+/* ==========================================================================
+   VELOCITYONE — PURE CSS INTERACTIVE UPGRADES (NO JS REQUIRED)
+   ========================================================================== */
+
+/* 1. PULSING LIVE TELEMETRY BEACON */
+@keyframes beacon-pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(158, 42, 43, 0.7);
+    }
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 8px rgba(158, 42, 43, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(158, 42, 43, 0);
+    }
+}
+
+.live-beacon {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #9E2A2B;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+    animation: beacon-pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
+    border: 1px solid #000000;
+}
+
+/* 2. PURE CSS INSTANT TOOLTIPS */
+[data-tooltip] {
+    position: relative;
+    cursor: help;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background-color: #FDFBF7;
+    color: #000000 !important;
+    border: 2px solid #9E2A2B;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 800;
+    font-family: 'Goudy Old Style', Garamond, serif;
+    white-space: nowrap;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* 3. STAGGERED CONTROL ROOM BOOT ANIMATION */
+@keyframes console-boot {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.kpi-card, table, .workflow-card {
+    animation: console-boot 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Automatically stagger the load of the 3 KPI cards */
+.kpi-grid .kpi-card:nth-child(1) { animation-delay: 0.05s; }
+.kpi-grid .kpi-card:nth-child(2) { animation-delay: 0.15s; }
+.kpi-grid .kpi-card:nth-child(3) { animation-delay: 0.25s; }
+
+/* 4. TACTILE INTERACTIVE TABLE ROWS */
+tbody tr {
+    transition: all 0.18s ease !important;
+    position: relative;
+}
+
+tbody tr:hover {
+    background-color: #F5F0E6 !important;
+    transform: scale(1.008);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+}
+
+tbody tr:hover td:first-child {
+    border-left: 4px solid #9E2A2B !important;
+    color: #9E2A2B !important;
+}
+
+/* 5. PURE CSS VISUAL PROGRESS & UTILIZATION METERS */
+.css-progress-track {
+    width: 100%;
+    height: 12px;
+    background-color: #EAE2D3;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 6px;
+    position: relative;
+}
+
+.css-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #E5C365, #D4AF37);
+    border-right: 1px solid #000000;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Add a striped barber-pole animation to the progress bar */
+@keyframes stripe-flow {
+    0% { background-position: 0 0; }
+    100% { background-position: 20px 0; }
+}
+
+.css-progress-fill.animated {
+    background-image: linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.1) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.1) 50%,
+        rgba(0, 0, 0, 0.1) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 20px 20px;
+    animation: stripe-flow 1s linear infinite;
+}
