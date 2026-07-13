@@ -1,4 +1,13 @@
-/* FORM COMPONENTS */
+/* ==========================================================================
+   VELOCITYONE — COMPONENTS ("ROYAL RED & BEIGE" THEME)
+   Design concept: an elegant, regal dispatch console featuring rich parchment
+   surfaces, deep Royal Red accents, and classic Goudy Old Style typography.
+   Designed for maximum contrast with strictly black text throughout[cite: 2].
+   All original selectors, class names, and structure are preserved 1:1[cite: 2] —
+   this is a drop-in replacement, no HTML/JS/Jinja changes required[cite: 2].
+   ========================================================================== */
+
+/* FORM COMPONENTS[cite: 2] */
 
 .form-row {
     display: flex;
@@ -10,12 +19,12 @@
 }
 
 .workflow-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
+    background-color: var(--bg-card, #FDFBF7);
+    border: 1px solid var(--border-color, #D3C6B0);
     border-radius: 8px;
     padding: 24px;
     margin-bottom: 25px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .form-group {
@@ -24,123 +33,139 @@
 
 .form-group label {
     display: block;
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
-    color: var(--text-main);
+    color: #000000 !important;
     margin-bottom: 8px;
     letter-spacing: 0.5px;
     font-weight: 800;
+    font-family: 'Goudy Old Style', Garamond, 'Times New Roman', serif;
 }
 
 .form-group input, .form-group select {
     width: 100%;
-    background-color: var(--bg-main);
-    border: 1px solid var(--border-color);
-    color: var(--text-main) !important;
+    background-color: var(--bg-card, #FDFBF7);
+    border: 1px solid var(--border-color, #D3C6B0);
+    color: #000000 !important;
     padding: 10px 14px;
     border-radius: 6px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
+    font-family: 'Goudy Old Style', Garamond, 'Times New Roman', serif;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .form-group input:focus, .form-group select:focus {
-    border-color: var(--text-main);
-    background-color: var(--bg-card);
+    border-color: #9E2A2B;
+    background-color: #FFFFFF;
     outline: none;
-    box-shadow: 0 0 0 2px var(--text-main);
+    box-shadow: 0 0 0 3px rgba(158, 42, 43, 0.25);
 }
 
 .form-group input::placeholder {
-    color: #4a4a4a;
+    color: #555555;
     font-weight: 500;
 }
 
+/* Primary buttons use Royal Gold with Royal Red border so black text is 100% visible[cite: 2] */
 .btn-primary {
-    background-color: var(--accent-peach);
-    color: var(--text-main) !important;
+    background-color: #E5C365;
+    color: #000000 !important;
     font-weight: 800;
     padding: 12px 20px;
-    border: 1px solid var(--text-main);
+    border: 1px solid #9E2A2B;
     border-radius: 6px;
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    font-family: 'Goudy Old Style', Garamond, 'Times New Roman', serif;
     transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .btn-primary:hover {
-    background-color: var(--accent-peach-hover);
+    background-color: #D4AF37;
+    border-color: #7E1E1F;
     transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
 .btn-block {
     width: 100%;
 }
 
-/* DATA TABLE */
+/* DATA TABLE[cite: 2] */
 .data-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 5px;
-    font-size: 13px;
-    background: var(--bg-card);
+    font-size: 15px;
+    background: var(--bg-card, #FDFBF7);
+    font-family: 'Goudy Old Style', Garamond, 'Times New Roman', serif;
+    border: 1px solid var(--border-color, #D3C6B0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .data-table th {
-    background-color: var(--bg-surface);
-    color: var(--text-main) !important;
+    background-color: var(--bg-surface, #EAE2D3);
+    color: #000000 !important;
     font-weight: 800;
     text-align: left;
-    padding: 12px 16px;
-    border-bottom: 2px solid var(--text-main);
+    padding: 14px 16px;
+    border-bottom: 2px solid #9E2A2B;
+    font-size: 14px;
+    letter-spacing: 0.5px;
 }
 
 .data-table td {
     padding: 12px 16px;
-    color: var(--text-main) !important;
-    border-bottom: 1px solid var(--border-color);
+    color: #000000 !important;
+    border-bottom: 1px solid var(--border-color, #D3C6B0);
     vertical-align: middle;
-    font-weight: 500;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
 }
 
 .data-table tr:hover {
-    background-color: rgba(0, 0, 0, 0.03); 
+    background-color: rgba(158, 42, 43, 0.06); 
 }
 
-/* BADGES */
+/* BADGES[cite: 2] */
 .badge {
     display: inline-flex;
     align-items: center;
     padding: 4px 10px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 800;
     border-radius: 12px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border: 1px solid var(--text-main);
-    color: var(--text-main) !important;
+    border: 1px solid #000000;
+    color: #000000 !important;
+    font-family: 'Goudy Old Style', Garamond, 'Times New Roman', serif;
 }
 
-.badge-success { background-color: var(--status-avail); }
-.badge-info { background-color: var(--status-trip); }
-.badge-warning { background-color: var(--status-shop); }
-.badge-danger { background-color: var(--status-crit); }
-.badge-neutral { background-color: var(--bg-main); }
+.badge-success { background-color: #D1E7DD; border-color: #0F5132; }
+.badge-info { background-color: #E2E3E5; border-color: #41464B; }
+.badge-warning { background-color: #FFF3CD; border-color: #664D03; }
+.badge-danger { background-color: #F8D7DA; border-color: #842029; }
+.badge-neutral { background-color: var(--bg-main, #F5F0E6); border-color: #000000; }
 
-/* ALERT BOXES */
+/* ALERT BOXES[cite: 2] */
 .alert-box {
     padding: 14px 20px;
     border-radius: 6px;
     margin-bottom: 20px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.4;
-    border-left: 4px solid var(--text-main);
+    border-left: 5px solid #9E2A2B;
     display: flex;
     align-items: center;
     font-weight: 700;
-    color: var(--text-main) !important;
+    color: #000000 !important;
+    font-family: 'Goudy Old Style', Garamond, 'Times New Roman', serif;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.alert-box.success { background-color: var(--status-avail); }
-.alert-box.error { background-color: var(--status-crit); }
+.alert-box.success { background-color: #D1E7DD; border-left-color: #0F5132; }
+.alert-box.error { background-color: #F8D7DA; border-left-color: #842029; }
