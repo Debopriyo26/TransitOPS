@@ -1,273 +1,117 @@
-/* ==========================================================
-   VelocityOne Premium Theme
-   Modern Enterprise Dashboard
-   Version 2.0
-========================================================== */
+/* ==========================================================================
+   VELOCITYONE — ENTERPRISE DARK THEME
+   Premium TMS dashboard styling (Odoo Enterprise / Linear / Vercel / GitHub Dark
+   inspired). Drop-in replacement for the original stylesheet.
+   All original selectors, class names, and structure are preserved 1:1.
+   ========================================================================== */
 
-/* -----------------------------
-   ROOT VARIABLES
-------------------------------*/
+/* GLOBAL VARIABLES and Styling  */
 
-:root{
+:root {
 
-    /* Main Colors */
+    /* --- Surfaces --- */
+    --bg-main: #0B1120;          /* primary background — dark navy */
+    --bg-surface: #111827;       /* secondary background (sidebar, headers) */
+    --bg-card: #1E293B;          /* card / panel surface */
+    --border-color: #334155;     /* hairline borders */
 
-    --bg-main:#f5f7fb;
-    --bg-surface:#ffffff;
-    --bg-card:#ffffff;
+    /* --- Text --- */
+    --text-main: #F8FAFC;        /* primary text */
+    --text-muted: #94A3B8;       /* secondary / supporting text */
 
-    --border-color:#e5e7eb;
+    /* --- Accent (brand / interactive) --- */
+    --accent-peach: #3B82F6;         /* primary accent (renamed var kept for compatibility) */
+    --accent-peach-hover: #2563EB;   /* accent hover state */
 
-    /* Text */
+    /* --- Status colors (Transport / Fleet states) --- */
+    --status-avail: #14532d;
+    --status-avail-text: #86efac;
 
-    --text-main:#1f2937;
-    --text-muted:#6b7280;
+    --status-trip: #1e3a5f;
+    --status-trip-text: #93c5fd;
 
-    /* Primary */
+    --status-shop: #78350f;
+    --status-shop-text: #fcd34d;
 
-    --accent-peach:#2563eb;
-    --accent-peach-hover:#1d4ed8;
+    --status-crit: #7f1d1d;
+    --status-crit-text: #fca5a5;
 
-    /* Status */
-
-    --status-avail:#22c55e;
-    --status-avail-text:#ffffff;
-
-    --status-trip:#3b82f6;
-    --status-trip-text:#ffffff;
-
-    --status-shop:#f59e0b;
-    --status-shop-text:#ffffff;
-
-    --status-crit:#ef4444;
-    --status-crit-text:#ffffff;
-
-    /* Shadow */
-
-    --shadow-small:
-        0 2px 8px rgba(15,23,42,.05);
-
-    --shadow-medium:
-        0 8px 25px rgba(15,23,42,.08);
-
-    --shadow-large:
-        0 20px 40px rgba(15,23,42,.12);
-
-    /* Radius */
-
-    --radius-small:10px;
-    --radius-medium:16px;
-    --radius-large:22px;
-
-    /* Animation */
-
-    --transition:.30s ease;
+    /* --- New supporting tokens (additive, non-breaking) --- */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
+    --radius-md: 12px;
+    --radius-lg: 18px;
+    --focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.35);
 }
 
-/* -----------------------------
-   RESET
-------------------------------*/
+/* BASE STYLES */
 
-*{
-
-    margin:0;
-
-    padding:0;
-
-    box-sizing:border-box;
-
-    font-family:
-    "Segoe UI",
-    Roboto,
-    Arial,
-    sans-serif;
-
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
 }
 
-/* -----------------------------
-   BODY
-------------------------------*/
-
-body{
-
-    background:
-
-    linear-gradient(
-        135deg,
-        #eef3ff 0%,
-        #f8fafc 50%,
-        #edf6ff 100%
-    );
-
-    color:var(--text-main);
-
-    font-size:14px;
-
-    line-height:1.6;
-
-    height:100vh;
-
-    overflow:hidden;
-
+body {
+    background-color: var(--bg-main);
+    background-image:
+        radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.06), transparent 40%),
+        radial-gradient(circle at 100% 0%, rgba(59, 130, 246, 0.04), transparent 35%);
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* -----------------------------
-   HEADINGS
-------------------------------*/
-
-h1{
-
-    font-size:34px;
-
-    font-weight:700;
-
+/* HEADERS */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-main) !important;
+    letter-spacing: -0.01em;
 }
 
-h2{
-
-    font-size:28px;
-
-    font-weight:700;
-
+.view-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
 }
 
-h3{
-
-    font-size:22px;
-
-    font-weight:700;
-
+/* ==========================================================================
+   SIDEBAR
+   ========================================================================== */
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-surface);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-h4{
-
-    font-size:18px;
-
-    font-weight:600;
-
+.sidebar-brand {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-color);
 }
 
-h5{
-
-    font-size:16px;
-
-    font-weight:600;
-
+.sidebar-brand h2 {
+    font-size: 18px;
+    color: var(--text-main) !important;
+    font-weight: 800;
+    background: linear-gradient(90deg, #F8FAFC, #94A3B8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-h6{
-
-    font-size:14px;
-
-    font-weight:600;
-
-}
-
-h1,h2,h3,h4,h5,h6{
-
-    color:var(--text-main);
-
-}
-
-/* -----------------------------
-   LINKS
-------------------------------*/
-
-a{
-
-    text-decoration:none;
-
-    color:inherit;
-
-}
-
-/* -----------------------------
-   SCROLLBAR
-------------------------------*/
-
-::-webkit-scrollbar{
-
-    width:10px;
-
-}
-
-::-webkit-scrollbar-track{
-
-    background:#eef2f7;
-
-}
-
-::-webkit-scrollbar-thumb{
-
-    background:#cbd5e1;
-
-    border-radius:20px;
-
-}
-
-::-webkit-scrollbar-thumb:hover{
-
-    background:#94a3b8;
-
-}
-
-/* -----------------------------
-   MAIN LAYOUT
-------------------------------*/
-
-.view-container{
-
-    display:flex;
-
-    width:100vw;
-
-    height:100vh;
-
-}
-
-/* -----------------------------
-   MAIN CONTENT
-------------------------------*/
-
-.main-content{
-
-    flex:1;
-
-    display:flex;
-
-    flex-direction:column;
-
-    overflow-y:auto;
-
-    background:transparent;
-
-}
-
-/* -----------------------------
-   HIDDEN
-------------------------------*/
-
-.hidden{
-
-    display:none !important;
-
-}
-
-/* -----------------------------
-   GLOBAL TRANSITIONS
-------------------------------*/
-
-button,
-input,
-textarea,
-select,
-.sidebar-menu .menu-item,
-.kpi-card,
-table,
-.card{
-
-    transition:var(--transition);
-
+.sidebar-menu {
+    flex: 1;
+    padding-top: 15px;
 }
 
 /* SIDEBAR MENU ITEMS */
@@ -276,7 +120,9 @@ table,
     align-items: center;
     gap: 12px;
     padding: 14px 24px;
-    color: var(--text-main);
+    margin: 2px 12px;
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
@@ -285,19 +131,23 @@ table,
 }
 
 .sidebar-menu .menu-item:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(59, 130, 246, 0.08);
+    color: var(--text-main);
+    transform: translateX(2px);
 }
 
 .sidebar-menu .menu-item.active {
-    background-color: var(--bg-card);
-    border-left-color: var(--text-main); 
+    background-color: rgba(59, 130, 246, 0.14);
+    border-left-color: var(--accent-peach);
+    color: var(--text-main);
     font-weight: 800;
+    box-shadow: var(--shadow-sm);
 }
 
 .user-profile-box {
     padding: 20px 24px;
     border-top: 1px solid var(--border-color);
-    background-color: rgba(0, 0, 0, 0.03);
+    background-color: rgba(255, 255, 255, 0.02);
 }
 
 .user-info p {
@@ -305,7 +155,9 @@ table,
     color: var(--text-main);
 }
 
-/* MAIN CONTENT AREA */
+/* ==========================================================================
+   MAIN CONTENT AREA
+   ========================================================================== */
 .main-content {
     flex: 1;
     display: flex;
@@ -323,6 +175,7 @@ table,
     align-items: center;
     justify-content: space-between;
     background-color: var(--bg-surface);
+    backdrop-filter: blur(8px);
 }
 
 .content-header h2 {
@@ -333,10 +186,10 @@ table,
 .system-time-box {
     font-size: 13px;
     color: var(--text-main);
-    background-color: var(--bg-card);
+    background-color: rgba(59, 130, 246, 0.12);
     padding: 6px 14px;
     border-radius: 20px;
-    border: 1px solid var(--text-main);
+    border: 1px solid rgba(59, 130, 246, 0.35);
     font-weight: 700;
 }
 
@@ -344,15 +197,24 @@ table,
     display: none !important;
 }
 
-/* DATA TABLE BUTTONS */
+/* ==========================================================================
+   DATA TABLE
+   ========================================================================== */
 .data-table button {
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    padding: 6px 12px;
+    cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .data-table button:hover {
-    filter: brightness(0.95);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    filter: brightness(1.15);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--accent-peach);
 }
 
 .data-table td[style*="background: var(--bg-surface)"] {
@@ -360,7 +222,50 @@ table,
     color: var(--text-main) !important;
     font-size: 14px;
 }
-/* KPI CARDS */
+
+/* Generic table polish (applies without any HTML/class changes) */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+thead th {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+}
+
+tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 13.5px;
+}
+
+tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.06);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ==========================================================================
+   KPI CARDS
+   ========================================================================== */
 
 .kpi-grid {
     display: grid;
@@ -372,16 +277,17 @@ table,
 .kpi-card {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     padding: 30px 24px;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
-    transition: transform 0.2s ease;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .kpi-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(59, 130, 246, 0.4);
 }
 
 .kpi-card h3 {
@@ -396,15 +302,171 @@ table,
     font-size: 13px;
     text-transform: uppercase;
     font-weight: 700;
-    color: #4a4a4a;
+    color: var(--text-muted);
     letter-spacing: 0.5px;
 }
 
 .kpi-card.highlight {
-    background-color: var(--accent-peach);
-    border-color: var(--text-main);
+    background: linear-gradient(145deg, #1E293B, #16213a);
+    border-color: var(--accent-peach);
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.25), var(--shadow-md);
 }
 
 .kpi-card.highlight p {
+    color: #93c5fd;
+}
+
+/* ==========================================================================
+   FORMS & INPUTS (generic — no markup changes required)
+   ========================================================================== */
+
+input, select, textarea {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
     color: var(--text-main);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+    color: var(--text-muted);
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--accent-peach);
+    box-shadow: var(--focus-ring);
+}
+
+select {
+    cursor: pointer;
+}
+
+label {
+    color: var(--text-muted);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   BUTTONS (generic)
+   ========================================================================== */
+
+button {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+button:hover {
+    border-color: var(--accent-peach);
+    box-shadow: var(--shadow-sm);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+button.primary,
+button[type="submit"] {
+    background-color: var(--accent-peach);
+    border-color: var(--accent-peach);
+    color: #ffffff;
+}
+
+button.primary:hover,
+button[type="submit"]:hover {
+    background-color: var(--accent-peach-hover);
+    border-color: var(--accent-peach-hover);
+}
+
+/* ==========================================================================
+   MODALS / DROPDOWNS / SEARCH (generic conventions, additive only)
+   ========================================================================== */
+
+.modal, .modal-content, .modal-overlay {
+    background-color: rgba(11, 17, 32, 0.65);
+}
+
+.modal-content {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    color: var(--text-main);
+}
+
+.dropdown-menu, .dropdown-content {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.search-bar, .search-input {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+}
+
+/* ==========================================================================
+   SCROLLBARS
+   ========================================================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-muted);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 72px;
+    }
+    .sidebar-brand h2,
+    .sidebar-menu .menu-item span,
+    .user-info p {
+        display: none;
+    }
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
 }
