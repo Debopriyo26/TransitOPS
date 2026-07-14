@@ -1,31 +1,228 @@
-{% extends 'base.html' %}
-{% block view_title %}Live Operations Dashboard{% endblock %}
+{% extends "base.html" %}
+
+{% block view_title %}Live Fleet Operations & Command Console{% endblock %}
 
 {% block content %}
-<div class="kpi-grid">
-    <div class="kpi-card">
-        <h3>{{ kpis.active_vehicles }}</h3>
-        <p>Active Vehicles (On Trip)</p>
+<!-- ==========================================================================
+     HACKATHON FAILSAFE INLINE STYLING
+     Forces the Royal Red & Beige Goudy Old Style theme to load immediately,
+     bypassing any browser caching issues with external stylesheets!
+     ========================================================================== -->
+<style>
+    /* Force background and typography onto the entire main view */
+    body, .main-content {
+        background-color: #F5F0E6 !important;
+        background-image: 
+            radial-gradient(circle at 15% 0%, rgba(158, 42, 43, 0.08), transparent 45%),
+            radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.1), transparent 40%) !important;
+        color: #000000 !important;
+        font-family: 'Goudy Old Style', Garamond, 'Times New Roman', serif !important;
+    }
+
+    /* Override Header */
+    .content-header {
+        background-color: #EAE2D3 !important;
+        border-bottom: 2px solid #9E2A2B !important;
+    }
+    
+    .content-header h2 {
+        color: #000000 !important;
+        font-weight: 800 !important;
+        font-family: 'Goudy Old Style', Garamond, serif !important;
+    }
+
+    /* Custom Picture Banner Styling */
+    .dashboard-hero-frame {
+        width: 100%;
+        height: 240px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 2px solid #9E2A2B;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        margin-bottom: 30px;
+        position: relative;
+        background: linear-gradient(135deg, #9E2A2B 0%, #4A1213 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dashboard-hero-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.4s ease;
+    }
+
+    .dashboard-hero-frame:hover img {
+        transform: scale(1.02);
+    }
+
+    /* Hero Banner Overlay Text */
+    .hero-overlay-badge {
+        position: absolute;
+        bottom: 15px;
+        left: 20px;
+        background-color: rgba(253, 251, 247, 0.95);
+        border: 1px solid #9E2A2B;
+        padding: 8px 16px;
+        border-radius: 6px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        pointer-events: none;
+    }
+
+    /* KPI Gauge Cards */
+    .console-card {
+        background-color: #FDFBF7 !important;
+        border: 1px solid #D3C6B0 !important;
+        border-radius: 12px !important;
+        padding: 24px !important;
+        text-align: center !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+
+    .console-card:hover {
+        transform: translateY(-4px) !important;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12) !important;
+        border-color: #9E2A2B !important;
+    }
+
+    .console-card::top-border {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 4px;
+        background: #9E2A2B;
+    }
+
+    .console-card h3 {
+        font-size: 42px !important;
+        font-weight: 800 !important;
+        color: #000000 !important;
+        margin-bottom: 4px !important;
+        font-family: 'Goudy Old Style', Garamond, serif !important;
+        line-height: 1 !important;
+    }
+
+    .console-card p {
+        font-size: 13px !important;
+        text-transform: uppercase !important;
+        font-weight: 800 !important;
+        color: #111111 !important;
+        letter-spacing: 0.08em !important;
+        margin: 0 !important;
+    }
+
+    /* Highlight Card (Utilization) */
+    .console-card.gold-highlight {
+        background: linear-gradient(160deg, #F9F5EC, #EFE8D8) !important;
+        border: 2px solid #9E2A2B !important;
+        box-shadow: 0 0 15px rgba(158, 42, 43, 0.15) !important;
+    }
+</style>
+
+<!-- ==========================================================================
+     SECTION 1: HERO PICTURE / CINEMATIC BANNER
+     To display your photo, save it as 'static/images/banner.jpg'.
+     ========================================================================== -->
+<div class="dashboard-hero-frame">
+    <!-- Image with automated fallback if file is not yet saved -->
+    <img src="{{ url_for('static', filename='images/banner.jpg') }}" 
+         alt="VelocityOne Strategic Command" 
+         onerror="this.style.display='none'; document.getElementById('fallback-text').style.display='block';">
+    
+    <!-- Fallback message if image is missing -->
+    <div id="fallback-text" style="display: none; text-align: center; color: #FDFBF7; padding: 20px;">
+        <h3 style="color: #E5C365 !important; font-size: 28px; margin-bottom: 8px;">👑 VELOCITYONE COMMAND CENTER</h3>
+        <p style="color: #FDFBF7 !important; font-size: 14px; letter-spacing: 1px;">STRATEGIC FLEET DISPATCH & TELEMETRY MATRIX</p>
+        <small style="color: #D3C6B0; font-style: italic;">(To display your custom picture here, save an image as <b>static/images/banner.jpg</b>)</small>
     </div>
-    <div class="kpi-card">
-        <h3>{{ kpis.available_vehicles }}</h3>
-        <p>Available Vehicles</p>
+
+    <!-- Live Telemetry Overlay Badge -->
+    <div class="hero-overlay-badge">
+        <span style="display: inline-block; width: 10px; height: 10px; background-color: #9E2A2B; border-radius: 50%; margin-right: 6px; vertical-align: middle; border: 1px solid #000;"></span>
+        <strong style="color: #000; font-size: 12px; letter-spacing: 0.5px;">SYSTEM STATUS: ACTIVE TELEMETRY ONLINE</strong>
     </div>
-    <div class="kpi-card">
-        <h3>{{ kpis.maintenance_vehicles }}</h3>
-        <p>Vehicles In Shop</p>    
+</div>
+
+<!-- ==========================================================================
+     SECTION 2: PRIMARY FLEET KPI METRICS (3-COLUMN GRID)
+     ========================================================================== -->
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 24px;">
+    
+    <!-- Total Fleet Assets -->
+    <div class="console-card">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #9E2A2B;"></div>
+        <h3>{{ kpis.total_vehicles }}</h3>
+        <p>🚛 Total Registered Vehicles</p>
     </div>
-    <div class="kpi-card">
-        <h3>{{ kpis.active_trips }}</h3>
-        <p>Active Dispatched Trips</p>
+
+    <!-- Active On-Trip Assets -->
+    <div class="console-card">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #D4AF37;"></div>
+        <h3 style="color: #9E2A2B !important;">{{ kpis.active_vehicles }}</h3>
+        <p>📡 Vehicles Currently On Trip</p>
     </div>
-    <div class="kpi-card">
-        <h3>{{ kpis.drivers_duty }}</h3>
-        <p>Drivers On Duty</p>
+
+   <!-- Fleet Utilization Rate -->
+    <div class="console-card gold-highlight">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #9E2A2B;"></div>
+        <h3>{{ kpis.utilization|default(0) }}%</h3>
+        <p style="margin-bottom: 12px !important;">⚡ Live Fleet Utilization</p>
+        
+        <!-- Clean status badge replaces the problematic bar line with zero linter errors -->
+        <div style="border-top: 1px solid rgba(158, 42, 43, 0.2); padding-top: 10px;">
+            <span style="display: inline-block; padding: 4px 10px; background: #9E2A2B; color: #FDFBF7; font-size: 11px; font-weight: 800; border-radius: 12px; letter-spacing: 0.5px;">
+                📡 OPTIMAL CAPACITY
+            </span>
+        </div>
     </div>
-    <div class="kpi-card highlight">
-        <h3>{{ kpis.utilization }}%</h3>
-        <p>Total Fleet Utilization</p>
+
+<!-- ==========================================================================
+     SECTION 3: SECONDARY OPERATIONAL LEDGERS (4-COLUMN GRID)
+     ========================================================================== -->
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px;">
+    
+    <!-- Available Vehicles -->
+    <div class="console-card" style="padding: 18px !important;">
+        <h3 style="font-size: 32px !important; color: #0F5132 !important;">{{ kpis.available_vehicles }}</h3>
+        <p style="font-size: 11px !important;">🟢 Available For Dispatch</p>
     </div>
+
+    <!-- Vehicles In Shop -->
+    <div class="console-card" style="padding: 18px !important;">
+        <h3 style="font-size: 32px !important; color: #b25900 !important;">{{ kpis.maintenance_vehicles }}</h3>
+        <p style="font-size: 11px !important;">🔧 In Shop / Maintenance</p>
+    </div>
+
+    <!-- Active Trips -->
+    <div class="console-card" style="padding: 18px !important;">
+        <h3 style="font-size: 32px !important;">{{ kpis.active_trips }}</h3>
+        <p style="font-size: 11px !important;">🗺️ Active Dispatched Trips</p>
+    </div>
+
+    <!-- Drivers On Duty -->
+    <div class="console-card" style="padding: 18px !important;">
+        <h3 style="font-size: 32px !important;">{{ kpis.drivers_duty }}</h3>
+        <p style="font-size: 11px !important;">🧑‍✈️ Drivers Currently On Duty</p>
+    </div>
+
+</div>
+
+<!-- ==========================================================================
+     SECTION 4: QUICK ACTION STRATEGIC COMMAND BAR
+     ========================================================================== -->
+<div style="background: #FDFBF7; border: 1px solid #D3C6B0; border-radius: 12px; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+    <div>
+        <h4 style="margin: 0 0 4px 0; color: #000; font-size: 18px; font-weight: 800;">⚡ Ready to deploy new transport assets?</h4>
+        <p style="margin: 0; color: #333; font-size: 13px;">Assign certified operators to available vehicles and execute strategic route navigation.</p>
+    </div>
+    <a href="/dispatch" style="background: #E5C365; border: 1px solid #9E2A2B; color: #000; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: all 0.2s ease;">
+        🚀 Launch Trip Dispatcher
+    </a>
 </div>
 {% endblock %}
